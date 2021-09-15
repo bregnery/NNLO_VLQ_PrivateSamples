@@ -1,0 +1,119 @@
+DEBUG 2021-09-15 10:00:31.757 UTC: 	 CRAB Client version: v3.210825
+DEBUG 2021-09-15 10:00:31.757 UTC: 	 Running on: Linux lxplus779.cern.ch 3.10.0-1160.41.1.el7.x86_64 #1 SMP Tue Aug 31 14:52:47 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2021-09-15 10:00:31.757 UTC: 	 Executing command: 'submit'
+DEBUG 2021-09-15 10:00:31.757 UTC: 	 Found CRAB cache file /afs/cern.ch/user/b/bregnery/.crab3
+INFO 2021-09-15 10:00:31.759 UTC: 	 Will use CRAB configuration file submit_step1_SIM_crab.py
+DEBUG 2021-09-15 10:00:31.759 UTC: 	 Loading CRAB configuration file.
+DEBUG 2021-09-15 10:00:31.760 UTC: 	 Will use CRAB PrivateMC plugin (i.e. will run a MC generation job type).
+DEBUG 2021-09-15 10:00:31.804 UTC: 	 Checking credentials
+DEBUG 2021-09-15 10:00:31.804 UTC: 	 Found proxy file /tmp/x509up_u79777
+DEBUG 2021-09-15 10:00:31.804 UTC: 	 Getting proxy life time left
+DEBUG 2021-09-15 10:00:32.510 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u79777 -timeleft
+ output : 603318
+
+ error: 
+ retcode : 0
+DEBUG 2021-09-15 10:00:33.224 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u79777 -actimeleft
+ output : 603317
+
+ error: 
+ retcode : 0
+DEBUG 2021-09-15 10:00:33.225 UTC: 	 Proxy lifetime 603318 secs is different from voms extension lifetime 603317 secs for proxy: /tmp/x509up_u79777
+DEBUG 2021-09-15 10:00:33.225 UTC: 	 Proxy valid for 167:35:17 hours
+DEBUG 2021-09-15 10:00:33.933 UTC: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u79777 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+/cms/uscms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2021-09-15 10:00:34.025 UTC: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+DEBUG 2021-09-15 10:00:34.739 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u79777 -identity
+ output : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=bregnery/CN=768002/CN=Brendan Regnery
+
+ error: 
+ retcode : 0
+DEBUG 2021-09-15 10:00:34.747 UTC: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2021-09-15 10:00:34.748 UTC: 	 using d493decb7a328735d835c3b76a1bc809ce37bda1 as credential login name
+DEBUG 2021-09-15 10:00:35.153 UTC: 	 Executing : 
+ command : myproxy-info -l d493decb7a328735d835c3b76a1bc809ce37bda1 -s myproxy.cern.ch
+ output : username: d493decb7a328735d835c3b76a1bc809ce37bda1
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=bregnery/CN=768002/CN=Brendan Regnery
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  timeleft: 719:39:05  (30.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2021-09-15 10:00:35.154 UTC: 	 Myproxy is valid: 2590745
+DEBUG 2021-09-15 10:00:35.154 UTC: 	 Retrieving username ...
+DEBUG 2021-09-15 10:00:35.154 UTC: 	 Retrieving username from CRIC...
+DEBUG 2021-09-15 10:00:35.948 UTC: 	 username is bregnery
+DEBUG 2021-09-15 10:00:35.955 UTC: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2021-09-15 10:00:35.955 UTC: 	 using bregnery_CRAB as credential login name
+DEBUG 2021-09-15 10:00:36.265 UTC: 	 Executing : 
+ command : myproxy-info -l bregnery_CRAB -s myproxy.cern.ch
+ output : username: bregnery_CRAB
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=bregnery/CN=768002/CN=Brendan Regnery
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  timeleft: 719:39:18  (30.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2021-09-15 10:00:36.265 UTC: 	 Myproxy is valid: 2590758
+DEBUG 2021-09-15 10:00:36.266 UTC: 	 Result of myproxy credential check:
+  Credential exists on myproxy: username: d493decb7a328735d835c3b76a1bc809ce37bda1  - validity: 29 days, 23:39:05
+  Credential exists on myproxy: username: bregnery_CRAB  - validity: 29 days, 23:39:18
+DEBUG 2021-09-15 10:00:36.266 UTC: 	 Command use: submit
+DEBUG 2021-09-15 10:00:36.266 UTC: 	 Options use: ['--dryrun', 'submit_step1_SIM_crab.py']
+DEBUG 2021-09-15 10:00:36.429 UTC: 	 CRABClient version: v3.210825
+DEBUG 2021-09-15 10:00:36.429 UTC: 	 Instance is prod
+DEBUG 2021-09-15 10:00:36.429 UTC: 	 Server base url is cmsweb.cern.ch
+DEBUG 2021-09-15 10:00:36.429 UTC: 	 Command api workflow
+DEBUG 2021-09-15 10:00:36.429 UTC: 	 Started submission
+DEBUG 2021-09-15 10:00:36.429 UTC: 	 Working on /afs/cern.ch/work/b/bregnery/public/VLQ/UL/CMSSW_10_6_19/src/NNLO_VLQ_PrivateSamples/CrabRunFiles/crab_projects/crab_NLO_step1_VLQ_SIM
+DEBUG 2021-09-15 10:00:36.671 UTC: 	 Loading required information from the environment
+DEBUG 2021-09-15 10:00:36.671 UTC: 	 Found CMSSW_10_6_19 for slc7_amd64_gcc700 with base /afs/cern.ch/work/b/bregnery/public/VLQ/UL/CMSSW_10_6_19
+DEBUG 2021-09-15 10:00:36.671 UTC: 	 UNIQUE NAME: tarUUID 8f7cbc64-9fb7-4dc2-83af-4f02ab411556 
+DEBUG 2021-09-15 10:00:36.672 UTC: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferLogs = False
+config.General.transferOutputs = True
+config.General.workArea = 'crab_projects'
+config.General.requestName = 'NLO_step1_VLQ_SIM'
+config.section_('JobType')
+config.JobType.psetName = 'submit_step1_SIM_crab.py'
+config.JobType.pluginName = 'PrivateMC'
+config.section_('Data')
+config.Data.outputDatasetTag = 'NLO_step1_VLQ_SIM'
+config.Data.publication = True
+config.Data.unitsPerJob = 10
+config.Data.splitting = 'EventBased'
+config.Data.outLFNDirBase = '/store/user/bregnery/'
+config.Data.outputPrimaryDataset = 'MinBias'
+config.Data.totalUnits = 1000
+config.section_('Site')
+config.Site.storageSite = 'T3_US_FNALLPC'
+
+DEBUG 2021-09-15 10:00:36.672 UTC: 	 self.config.JobType.psetName: submit_step1_SIM_crab.py
+INFO 2021-09-15 10:00:36.672 UTC: 	 Importing CMSSW configuration submit_step1_SIM_crab.py
+INFO 2021-09-15 10:00:36.673 UTC: 	 Finished importing CMSSW configuration submit_step1_SIM_crab.py
+ERROR 2021-09-15 10:00:36.674 UTC: 	 Invalid CMSSW configuration: 'process' object is missing or is wrongly defined.
+ERROR 2021-09-15 10:00:36.674 UTC: 	 Caught ClientException exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.210825.00/bin/crab", line 151, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.210825.00/bin/crab", line 138, in __call__
+    self.cmd()
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.210825.00/lib/CRABClient/Commands/submit.py", line 102, in __call__
+    dummy_inputfiles, jobconfig = plugjobtype.run(filecacheurl)
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.210825.00/lib/CRABClient/JobType/PrivateMC.py", line 25, in run
+    tarFilename, configArguments = super(PrivateMC, self).run(*args, **kwargs)
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.210825.00/lib/CRABClient/JobType/Analysis.py", line 91, in run
+    raise ConfigurationException(msg)
+ConfigurationException: Invalid CMSSW configuration: 'process' object is missing or is wrongly defined.
