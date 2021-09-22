@@ -11,6 +11,7 @@ cmsenv
 cmsDriver.py Configuration/GenProduction/python/NNLO_VLQ_custom_python_fragment.py --python_filename NNLO_VLQ_custom_python_cfg.py --eventcontent RAWSIM,LHE --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN,LHE --fileout file:NNLO_VLQ_custom.root --conditions 106X_mcRun2_asymptotic_v13 --beamspot Realistic25ns13TeV2016Collision --step LHE,GEN --geometry DB:Extended --era Run2_2016 --no_exec --mc -n 1000
 
 cmsRun NNLO_VLQ_custom_python_cfg.py
+# This file had to be modified for use with crab an on an EOS space. Specifically the "genericTarball" script had to be altered. To see the final version, look under CrabRunScripts
 
 cmsDriver.py  --python_filename NLO_VLQ_custom_SIM_cfg.py --eventcontent RAWSIM --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM --fileout file:NLO_VLQ_custom_SIM.root --conditions 106X_mcRun2_asymptotic_v13 --beamspot Realistic25ns13TeV2016Collision --step SIM --geometry DB:Extended --filein file:NNLO_VLQ_custom.root --era Run2_2016 --runUnscheduled --no_exec --mc -n 100
 
