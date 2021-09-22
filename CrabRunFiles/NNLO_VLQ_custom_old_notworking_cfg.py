@@ -24,7 +24,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(1000)
 )
 
 # Input source
@@ -154,12 +154,11 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
 
 
 process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
+    args = cms.vstring('/afs/cern.ch/work/b/bregnery/public/VLQ/UL/genproductions/bin/MadGraph5_aMCatNLO/NLO_gridpack/t23t23_Incl_tPythia_narrow_M1000_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz'),
     nEvents = cms.untracked.uint32(100),
     numberOfParameters = cms.uint32(1),
     outputFile = cms.string('cmsgrid_final.lhe'),
-    scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_cvmfs.sh'),
-    args = cms.vstring('root://eosuser.cern.ch//eos/user/b/bregnery/gridpacks/t23t23_Incl_tPythia_narrow_M1000_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz')
-    #args = cms.vstring('root://eosuser.cern.ch//eos/user/j/jbonilla/GridPacks/BulkGraviton_hh_GF_HH_narrow/BulkGraviton_hh_GF_HH_narrow_M1000_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz')
+    scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_cvmfs.sh')
 )
 
 
@@ -172,7 +171,7 @@ process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
 #process.LHEoutput_step = cms.EndPath(process.LHEoutput)
 
 # Schedule definition
-process.schedule = cms.Schedule(process.lhe_step,process.generation_step,process.genfiltersummary_step,process.endjob_step,process.RAWSIMoutput_step) #,process.LHEoutput_step)
+process.schedule = cms.Schedule(process.lhe_step,process.generation_step,process.genfiltersummary_step,process.endjob_step,process.RAWSIMoutput_step)#,process.LHEoutput_step)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 # filter all path with the production filter sequence
