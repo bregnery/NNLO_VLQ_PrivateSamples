@@ -1,2 +1,5 @@
 *.root
 *.png
+*.pdf
+*.pyc
+CrabRunFiles/crab_projects/*

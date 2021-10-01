@@ -16,7 +16,7 @@ config.section_('Data')
 #config.Data.userInputFiles = ['run_generic_tarball_cvmfs.sh']
 config.Data.outputPrimaryDataset = 'MinBias'
 config.Data.splitting = 'EventBased'
-config.Data.unitsPerJob = 10
+config.Data.unitsPerJob = 1000
 NJOBS = 100  # This is not a configuration parameter, but an auxiliary variable that we use in the next line.
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
 config.Data.outLFNDirBase = '/store/user/bregnery/' 

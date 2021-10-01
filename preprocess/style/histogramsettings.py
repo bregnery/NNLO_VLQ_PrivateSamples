@@ -170,6 +170,109 @@ def makeStackHist(canvas, histList, title, xtitle, ytitle, drawoption, logY):
    return stackHist
 
 #==================================================================================
+# Make Comparison Histogram with Residuals ////////////////////////////////////////
+#----------------------------------------------------------------------------------
+# Axis titles are strings /////////////////////////////////////////////////////////
+# residualColor options are: kColor ///////////////////////////////////////////////
+# fitfunc is the fitted TF1 from a root fit ///////////////////////////////////////
+# stats is for statsbox the options are here: /////////////////////////////////////
+#   https://root.cern.ch/doc/master/classTPaveStats.html //////////////////////////
+# draw options are here: https://root.cern.ch/doc/master/classTHistPainter.html ///
+# residualYtitle is a string that has two options: "data - fit", //////////////////
+#   "(data - fit)/ data" //////////////////////////////////////////////////////////
+#----------------------------------------------------------------------------------
+
+def makeComparisonHist(canvas, hist1, hist2, leg1, leg2,  xtitle, residualYtitle, drawoption, residualColor):
+   if hist1.GetNbinsX() !=  hist2.GetNbinsX() :
+       print("The number of bins in the histograms is not the same!")
+       exit(1)
+   if hist1.GetXaxis().GetXmin() !=  hist2.GetXaxis().GetXmin() :
+       print("The number of minimum of the x axis in the histograms is not the same!")
+       exit(1)
+   if hist1.GetXaxis().GetXmin() !=  hist2.GetXaxis().GetXmin() :
+       print("The number of maximum of the x axis in the histograms is not the same!")
+       exit(1)
+
+   # make the TPads that will contain each graph 
+   histopad = root.TPad("histopad", "histopad", 0.0, 0.33, 1.0, 1.0) # xlow, ylow, xup, yup
+   residualpad = root.TPad("residualpad", "residualpad", 0.0, 0.0, 1.0, 0.33)
+
+   # set margins for splitting canvas into two
+   histopad.SetBottomMargin(0.02)
+   histopad.SetTopMargin(0.12)
+   residualpad.SetTopMargin(0.02)
+   residualpad.SetBottomMargin(0.3)
+   residualpad.SetBorderMode(0)
+
+   # draw the histograms on the canvas
+   histopad.Draw()
+   residualpad.Draw()
+
+   # Plot the data and fit results
+   histopad.cd()
+   hist1.SetStats(0)
+   root.gStyle.SetTitleSize(0.08, "t") # moves title, not size, x title is default, need t for actual title
+   #root.gStyle.SetTitleOffset(0.5, "t")
+   root.gStyle.SetOptFit(1111)
+   root.gStyle.SetErrorX(0.0001) # No X error
+   hist1.SetLabelSize(0.04)
+   hist1.GetXaxis().SetLabelSize(0)
+   hist1.Draw(drawoption)
+   hist2.Draw(drawoption)
+
+   # make a legend
+   legend = root.TLegend(0.7,0.7,0.9,0.85)
+   legend.AddEntry(hist1, leg1, "f") 
+   legend.AddEntry(hist2, leg2, "f") 
+   legend.Draw()
+   histopad.Modified() # to make statsbox object
+   histopad.Update()
+    
+   # Settings for the residuals
+   residualpad.cd()
+   residualHist = root.TH1F("resiualHist","", hist1.GetNbinsX(), 
+                            hist1.GetXaxis().GetXmin(), hist1.GetXaxis().GetXmax() )
+   residualHist.SetFillColor(residualColor-1)
+   residualHist.SetLineColor(residualColor+1)
+   residualHist.GetXaxis().SetTitle(xtitle)
+   residualHist.GetXaxis().SetTitleSize(0.1)
+   residualHist.GetXaxis().SetTitleOffset(1.0)
+   residualHist.GetXaxis().SetLabelSize(0.09)
+   residualHist.GetYaxis().SetTitle(residualYtitle)
+   residualHist.GetYaxis().SetTitleSize(0.09)
+   residualHist.GetYaxis().SetTitleOffset(0.7)
+   residualHist.GetYaxis().SetLabelSize(0.08)
+
+   # Fill the residuals
+   if residualYtitle == "hist1 - hist2":
+      for nbin in range(1, hist1.GetNbinsX() ):
+         residual = hist1.GetBinContent(nbin) - hist2.GetBinContent(nbin) 
+         residualHist.SetBinContent(nbin, residual)
+   elif residualYtitle == "(hist1 - hist2)/ hist1":
+      for nbin in range(1, hist1.GetNbinsX() ):
+         if hist1.GetBinContent(nbin) == 0:
+            residual = hist1.GetBinContent(nbin) - hist2.GetBinContent(nbin) 
+         else:
+            residual = (hist1.GetBinContent(nbin) - hist2.GetBinContent(nbin) ) / hist1.GetBinContent(nbin)
+         residualHist.SetBinContent(nbin, residual)
+
+   # Plot the residuals
+   residualHist.SetStats(0)
+   residualHist.Draw()
+   residualpad.Modified()
+   residualpad.Update()
+
+   # save the plot
+   canvas.cd()
+   canvas.SaveAs("ComparisonHist_" + hist1.GetName() + ".png")
+   canvas.SaveAs("ComparisonHist_" + hist1.GetName() + ".pdf")
+
+   # delete the histograms and TPads to avoid memory leaks
+   residualHist.Delete()
+   residualpad.Delete()
+   histopad.Delete()
+
+#==================================================================================
 # Set the histogram axis titles ///////////////////////////////////////////////////
 #----------------------------------------------------------------------------------
 # Axis titles are strings /////////////////////////////////////////////////////////
