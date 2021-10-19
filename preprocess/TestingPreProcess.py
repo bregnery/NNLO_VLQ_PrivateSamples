@@ -118,6 +118,7 @@ def process(events,**kwargs):
 
     collections = Collections()
 
+    collections.add("generatorInfo", "GenEventInfoProduct", "generator")
     collections.add("genParticles", "std::vector<reco::GenParticle>", "prunedGenParticles")
     collections.add("jets", "std::vector<pat::Jet>", "slimmedJets")
     collections.add("jetsAK8", "std::vector<pat::Jet>", "slimmedJetsAK8")
@@ -143,11 +144,24 @@ def process(events,**kwargs):
         tree.set_run_lumi_event(run,lumi,event)
 
         #================================
+        # Event Weights /////////////////
+        #================================
+        genInfo = collections.get('generatorInfo', event)
+
+        tree.set('EventWeight', genInfo.weight() ) 
+
+        #================================
         # Vertices //////////////////////
         #================================
         vertices = collections.get('primaryVertices', event)
 
         tree.set('nPrimaryVertices', len(vertices) )
+
+        #================================
+        # Gen Particles /////////////////
+        #================================
+
+        genParts = collections.get('genParticles')
 
         #================================
         # Jets //////////////////////////
@@ -198,6 +212,47 @@ def process(events,**kwargs):
                     tree.set('SubLeadAK8Jet_mass', jetAK8Sublead.mass() )
                     #tree.set('SubLeadAK8Jet_softdrop_mass', jetAK8Sublead.userFloat("ak8PFJetsCHSSoftDropMass") )
                     tree.set('SubLeadAK8Jet_phi', jetAK8Sublead.phi() )
+
+                    if len(jetsAK8) < 3: 
+                        tree.set('Jet3AK8_pt', -999.9 )
+                        tree.set('Jet3AK8_eta', -999.9 ) 
+                        tree.set('Jet3AK8_mass', -999.9 )
+                        tree.set('Jet3AK8_phi', -999.9 )
+                    else:
+                        tree.set('Jet3AK8_pt', jetsAK8[2].pt() )
+                        tree.set('Jet3AK8_eta', jetsAK8[2].eta() ) 
+                        tree.set('Jet3AK8_mass', jetsAK8[2].mass() )
+                        tree.set('Jet3AK8_phi', jetsAK8[2].phi() )
+                    if len(jetsAK8) < 4: 
+                        tree.set('Jet4AK8_pt', -999.9 )
+                        tree.set('Jet4AK8_eta', -999.9 ) 
+                        tree.set('Jet4AK8_mass', -999.9 )
+                        tree.set('Jet4AK8_phi', -999.9 )
+                    else:
+                        tree.set('Jet4AK8_pt', jetsAK8[3].pt() )
+                        tree.set('Jet4AK8_eta', jetsAK8[3].eta() ) 
+                        tree.set('Jet4AK8_mass', jetsAK8[3].mass() )
+                        tree.set('Jet4AK8_phi', jetsAK8[3].phi() )
+                    if len(jetsAK8) < 5: 
+                        tree.set('Jet5AK8_pt', -999.9 )
+                        tree.set('Jet5AK8_eta', -999.9 ) 
+                        tree.set('Jet5AK8_mass', -999.9 )
+                        tree.set('Jet5AK8_phi', -999.9 )
+                    else:
+                        tree.set('Jet5AK8_pt', jetsAK8[4].pt() )
+                        tree.set('Jet5AK8_eta', jetsAK8[4].eta() ) 
+                        tree.set('Jet5AK8_mass', jetsAK8[4].mass() )
+                        tree.set('Jet5AK8_phi', jetsAK8[4].phi() )
+                    if len(jetsAK8) < 6: 
+                        tree.set('Jet6AK8_pt', -999.9 )
+                        tree.set('Jet6AK8_eta', -999.9 ) 
+                        tree.set('Jet6AK8_mass', -999.9 )
+                        tree.set('Jet6AK8_phi', -999.9 )
+                    else:
+                        tree.set('Jet6AK8_pt', jetsAK8[5].pt() )
+                        tree.set('Jet6AK8_eta', jetsAK8[5].eta() ) 
+                        tree.set('Jet6AK8_mass', jetsAK8[5].mass() )
+                        tree.set('Jet6AK8_phi', jetsAK8[5].phi() )
     
         #==================================
         # Fill Tree ///////////////////////
@@ -209,13 +264,19 @@ def process(events,**kwargs):
 #redirector = 'root://cmsxrootd.fnal.gov'
 
 #files = glob.glob("/afs/cern.ch/work/b/bregnery/public/HHwwwwMCgenerator/CMSSW_8_0_21/src/hhMCgenerator/RootFiles/M2000/*.root") 
-files = ["NLO_VLQ_custom_MiniAOD.root"]
+#files = ["NLO_VLQ_custom_MiniAOD.root"]
+#files = open('NLO_files.txt').read().splitlines()
+#files = open('LO_files.txt').read().splitlines()
+#files = ["root://xrootd-cms.infn.it//store/mc/RunIIFall17MiniAODv2/TprimeTprime_M-1000_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/100000/187E05CB-55AE-E811-9F64-008CFA1112C0.root"]
+files = ["root://cmsxrootd.fnal.gov//store/mc/RunIISummer16MiniAODv3/TprimeTprime_M-1000_TuneCUETP8M1_13TeV-madgraph-pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v2/60000/060D21D7-2D36-E911-B490-0CC47AFF01B0.root"]
 
 #[
 #    '../RootFiles/M3500/Radion_hh_wwww_M3500_MiniAOD_1.root',
 #]
 
-outFile = root.TFile("NLO_VLQ_custom_FWLite.root",'RECREATE')
+#outFile = root.TFile("NLO_VLQ_custom_FWLite.root",'RECREATE')
+#outFile = root.TFile("LO_VLQ_custom_FWLite.root",'RECREATE')
+outFile = root.TFile("LO_preUL_FWLite.root",'RECREATE')
 outFile.cd()
 
 tree = AnalysisTree()
@@ -239,7 +300,27 @@ tree.add('SubLeadAK8Jet_softdrop_mass', 'F')
 tree.add('SubLeadAK8Jet_phi', 'F')
 tree.add('nJetsAK8', 'F')
 tree.add('nPrimaryVertices', 'F')
+tree.add('EventWeight', 'F')
 
+tree.add('Jet3AK8_pt', 'F')
+tree.add('Jet3AK8_eta', 'F')
+tree.add('Jet3AK8_mass', 'F')
+tree.add('Jet3AK8_phi', 'F')
+   
+tree.add('Jet4AK8_pt', 'F')
+tree.add('Jet4AK8_eta', 'F')
+tree.add('Jet4AK8_mass', 'F')
+tree.add('Jet4AK8_phi', 'F')
+   
+tree.add('Jet5AK8_pt', 'F')
+tree.add('Jet5AK8_eta', 'F')
+tree.add('Jet5AK8_mass', 'F')
+tree.add('Jet5AK8_phi', 'F')
+   
+tree.add('Jet6AK8_pt', 'F')
+tree.add('Jet6AK8_eta', 'F')
+tree.add('Jet6AK8_mass', 'F')
+tree.add('Jet6AK8_phi', 'F')
    
 events = Events(files)
 process(events,maxEvents=100000,tree=tree)

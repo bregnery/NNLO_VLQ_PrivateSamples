@@ -21,7 +21,7 @@ root.gROOT.SetBatch(True)
 # Load Data ///////////////////////////////////////////////////////////////////////
 #==================================================================================
 
-NLOcomparison = True
+NLOcomparison = False
 
 if NLOcomparison == True: 
     NLOfile = "NLO_VLQ_custom_FWLite.root"
@@ -41,7 +41,7 @@ varList = ["nJetsAK8", "LeadAK8Jet_pt", "LeadAK8Jet_mass", "LeadAK8Jet_eta", "Le
            "Jet4AK8_pt", "Jet4AK8_mass", "Jet4AK8_eta", "Jet4AK8_phi",
            "Jet5AK8_pt", "Jet5AK8_mass", "Jet5AK8_eta", "Jet5AK8_phi",
            "Jet6AK8_pt", "Jet6AK8_mass", "Jet6AK8_eta", "Jet6AK8_phi",
-           "nPrimaryVertices"]
+           "nPrimaryVertices", "EventWeight"]
 
 # read data from file into a numpy array
 LOlist  = []
@@ -56,8 +56,8 @@ for var in varList :
 
 # Create weight for the LO histograms so that Histograms have the same scale
 #weight = len(NLOnjets)/float(len(LOnjets))
-weightNLO = 1/float(len(NLOlist[0]))
-weightLO  = 1/float(len(LOlist[0]))
+#weightNLO = 1/float(len(NLOlist[0]))
+#weightLO  = 1/float(len(LOlist[0]))
 
 # Set style options
 settings.setSimpleStyle()
@@ -73,76 +73,139 @@ settings.setHistTitles(NLOhistVec[0], "Number of Jets", "Number of Events")
 
 iVec = 1
 
-for ijet in range(1, 6) :
+for ijet in range(1, 7) :
     
     strJet = str(ijet)
 
     NLOhistVec.append(root.TH1F("NLOjet"+strJet+"ptHist","Jet "+strJet+" pT",20,0,1200) )
     settings.setHistTitles(NLOhistVec[iVec], "Jet p_{T} [GeV]", "Number of Events")
 
+    iVec+=1
+
     NLOhistVec.append(root.TH1F("NLOjet"+strJet+"massHist","Jet "+strJet+" Mass",20,0,400) )
     settings.setHistTitles(NLOhistVec[iVec], "Jet Mass [GeV]", "Number of Events")
+
+    iVec+=1
 
     NLOhistVec.append(root.TH1F("NLOjet"+strJet+"etaHist","Jet "+strJet+" Eta",20,0,4) )
     settings.setHistTitles(NLOhistVec[iVec], "Eta", "Number of Events")
 
-    NLOhistVec.append(root.TH1F("NLOjet"+strJet+"phiHist","Leading Jet Phi",20,-4,4) )
+    iVec+=1
+
+    NLOhistVec.append(root.TH1F("NLOjet"+strJet+"phiHist","Jet "+strJet+" Phi",20,-4,4) )
     settings.setHistTitles(NLOhistVec[iVec], "Phi", "Number of Events")
 
+    iVec+=1
+
 NLOhistVec.append(root.TH1F("NLOnVertHist","# of Primary Vertices",50,0,50) )
-settings.setHistTitles(NLOhistVec[9], "Number of Primary Vertices", "Number of Events")
+settings.setHistTitles(NLOhistVec[iVec], "Number of Primary Vertices", "Number of Events")
+
+iVec+=1
+
+NLOhistVec.append(root.TH1F("NLOeventWeigth","Event Weight",100,-1.2,1.2) )
+settings.setHistTitles(NLOhistVec[iVec], "EventWeight", "Number of Events")
+
+iVec+=1
+
+NLOhistVec.append(root.TH1F("NLOjetHTHist","HT",30,0,2500) )
+settings.setHistTitles(NLOhistVec[iVec], "HT", "Number of Events")
+
+iVec+=1
 
 NLOhistVec.append(root.TH1F("NLOjet1massZoomHist","Leading Jet Mass",50,150,300) )
-settings.setHistTitles(NLOhistVec[10], "Jet Mass [GeV]", "Number of Events")
+settings.setHistTitles(NLOhistVec[iVec], "Jet Mass [GeV]", "Number of Events")
 
 LOhistVec = []
 
 LOhistVec.append(root.TH1F("LOnJetsHist","# of AK8 Jets",8,0,8) )
 settings.setHistTitles(LOhistVec[0], "Number of Jets", "Number of Events")
 
-LOhistVec.append(root.TH1F("LOjet1ptHist","Leading Jet pT",20,0,1200) )
-settings.setHistTitles(LOhistVec[1], "Jet p_{T} [GeV]", "Number of Events")
+iVec = 1
 
-LOhistVec.append(root.TH1F("LOjet1massHist","Leading Jet Mass",20,0,400) )
-settings.setHistTitles(LOhistVec[2], "Jet Mass [GeV]", "Number of Events")
+for ijet in range(1, 7) :
+    
+    strJet = str(ijet)
 
-LOhistVec.append(root.TH1F("LOjet1etaHist","Leading Jet Eta",20,0,4) )
-settings.setHistTitles(LOhistVec[3], "Eta", "Number of Events")
+    LOhistVec.append(root.TH1F("LOjet"+strJet+"ptHist","Jet "+strJet+" pT",20,0,1200) )
+    settings.setHistTitles(LOhistVec[iVec], "Jet p_{T} [GeV]", "Number of Events")
 
-LOhistVec.append(root.TH1F("LOjet1phiHist","Leading Jet Phi",20,-4,4) )
-settings.setHistTitles(LOhistVec[4], "Phi", "Number of Events")
+    iVec+=1
 
-LOhistVec.append(root.TH1F("LOjet2ptHist","SubLeading Jet pT",20,0,1200) )
-settings.setHistTitles(LOhistVec[5], "Jet p_{T} [GeV]", "Number of Events")
+    LOhistVec.append(root.TH1F("LOjet"+strJet+"massHist","Jet "+strJet+" Mass",20,0,400) )
+    settings.setHistTitles(LOhistVec[iVec], "Jet Mass [GeV]", "Number of Events")
 
-LOhistVec.append(root.TH1F("LOjet2massHist","SubLeading Jet Mass",20,0,400) )
-settings.setHistTitles(LOhistVec[6], "Jet Mass [GeV]", "Number of Events")
+    iVec+=1
 
-LOhistVec.append(root.TH1F("LOjet2etaHist","SubLeading Jet Eta",20,0,4) )
-settings.setHistTitles(LOhistVec[7], "Eta", "Number of Events")
+    LOhistVec.append(root.TH1F("LOjet"+strJet+"etaHist","Jet "+strJet+" Eta",20,0,4) )
+    settings.setHistTitles(LOhistVec[iVec], "Eta", "Number of Events")
 
-LOhistVec.append(root.TH1F("LOjet2phiHist","SubLeading Jet Phi",20,-4,4) )
-settings.setHistTitles(LOhistVec[8], "Phi", "Number of Events")
+    iVec+=1
+
+    LOhistVec.append(root.TH1F("LOjet"+strJet+"phiHist","Jet "+strJet+" Phi",20,-4,4) )
+    settings.setHistTitles(LOhistVec[iVec], "Phi", "Number of Events")
+
+    iVec+=1
 
 LOhistVec.append(root.TH1F("LOnVertHist","# of Primary Vertices",50,0,50) )
-settings.setHistTitles(LOhistVec[9], "Number of Primary Vertices", "Number of Events")
+settings.setHistTitles(LOhistVec[iVec], "Number of Primary Vertices", "Number of Events")
+
+iVec+=1
+
+LOhistVec.append(root.TH1F("LOeventWeigth","Event Weight",100,-1.2,1.2) )
+settings.setHistTitles(LOhistVec[iVec], "EventWeight", "Number of Events")
+
+iVec+=1
+
+LOhistVec.append(root.TH1F("LOjetHTHist","HT",30,0,2500) )
+settings.setHistTitles(LOhistVec[iVec], "HT", "Number of Events")
+
+iVec+=1
 
 LOhistVec.append(root.TH1F("LOjet1massZoomHist","Leading Jet Mass",50,150,300) )
-settings.setHistTitles(LOhistVec[10], "Jet Mass [GeV]", "Number of Events")
+settings.setHistTitles(LOhistVec[iVec], "Jet Mass [GeV]", "Number of Events")
 
 # fill the histograms
+eventWeightNLO = root_numpy.root2array(NLOfile,"AnalysisTree","EventWeight") 
+TotWeightNLO=0.0
 for event in range(len(NLOlist[0]) ):
+    TotWeightNLO += eventWeightNLO[event]
+weightNLO = 1/TotWeightNLO
+
+eventWeightLO = root_numpy.root2array(LOfile,"AnalysisTree","EventWeight") 
+TotWeightLO=0.0
+for event in range(len(LOlist[0]) ):
+    TotWeightLO += eventWeightLO[event]
+weightLO = 1/float(TotWeightLO)
+
+for event in range(len(NLOlist[0]) ):
+    jetHT = 0.0
     for i in range(len(varList) ) :
-        NLOhistVec[i].Fill(NLOlist[i][event], weightNLO)
+        weight = eventWeightNLO[event] * weightNLO
+        NLOhistVec[i].Fill(NLOlist[i][event], weight)
         if "LeadAK8Jet_mass" in varList[i] :
-            NLOhistVec[10].Fill(NLOlist[i][event], weightNLO)
+            NLOhistVec[iVec].Fill(NLOlist[i][event], weight)
+
+        if "pt" in varList[i] :
+            if NLOlist[i][event] > 0.0: 
+                jetHT += NLOlist[i][event]
+        if "Jet6AK8_pt" in varList[i] :
+            NLOhistVec[iVec-1].Fill(jetHT, weight)
 
 #Weighting the LO Histograms 
 for event in range(len(LOlist[0]) ):
+    jetHT = 0.0
     for i in range(len(varList) ) :
-        LOhistVec[i].Fill(LOlist[i][event], weightLO)
+        weight = eventWeightLO[event] * weightLO
+        LOhistVec[i].Fill(LOlist[i][event], weight)
         if "LeadAK8Jet_mass" in varList[i] :
-            LOhistVec[10].Fill(LOlist[i][event], weightLO)
+            LOhistVec[iVec].Fill(LOlist[i][event], weight)
+
+        if "pt" in varList[i] :
+            if LOlist[i][event] > 0.0: 
+                jetHT += LOlist[i][event]
+        if "Jet6AK8_pt" in varList[i] :
+            LOhistVec[iVec-1].Fill(jetHT, weight)
+
 
 # adjust histogram settings
 #settings.setDataPoint(nctPhotonFullHist, root.kBlack, root.kFullDotLarge)

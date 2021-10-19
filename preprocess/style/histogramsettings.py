@@ -255,10 +255,18 @@ def makeComparisonHist(canvas, hist1, hist2, leg1, leg2,  xtitle, residualYtitle
          else:
             residual = (hist1.GetBinContent(nbin) - hist2.GetBinContent(nbin) ) / hist1.GetBinContent(nbin)
          residualHist.SetBinContent(nbin, residual)
+   elif residualYtitle == "NLO/LO":
+      for nbin in range(1, hist1.GetNbinsX() ):
+         if hist2.GetBinContent(nbin) == 0:
+            residual = hist1.GetBinContent(nbin) 
+         else:
+            residual = hist1.GetBinContent(nbin) / hist2.GetBinContent(nbin)
+         residualHist.SetBinContent(nbin, residual)
 
    # Plot the residuals
    residualHist.SetStats(0)
-   residualHist.Draw()
+   residualHist.Draw("P")
+   residualHist.GetYaxis().SetRangeUser(0.2,1.7)
    residualpad.Modified()
    residualpad.Update()
 
